@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <title>Title</title>
+  <style>
+    *{
+      padding: 0px;
+      margin: 0px;
+    }
+    html,body{
+      height: 100%;
+      overflow: hidden;
+    }
+    .wrap{
+      position: relative;
+    }
+    .list{
+      position: absolute;
+
+      list-style: none;
+      overflow: hidden;
+    }
+    .list li{
+      float: left;
+      width: 20%;
+
+    }
+    .list li img{
+      width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <ul class="list">
+    <li>1
+      <img src="./2.jpg" alt="">
+    </li>
+    <li>2
+      <img src="./2.jpg" alt="">
+    </li>
+    <li>3
+      <img src="./2.jpg" alt="">
+    </li>
+    <li>4
+      <img src="./2.jpg" alt="">
+    </li>
+    <li>5
+      <img src="./2.jpg" alt="">
+    </li>
+    <li>6
+      <img src="./2.jpg" alt="">
+    </li>
+  </ul>
+</div>
+</body>
+<script>
+  document.addEventListener('touchstart',function(event){
+    event.preventDefault();
+  });
+
+  window.onload = function () {
+    var wrap = document.querySelector('.wrap');
+    var list = document.querySelector('.list');
+    var linodes = document.querySelectorAll('.list li');
+    console.log(linodes.length)
+    var startX=0;
+    var elemX=0;
+    var nowX = 0
+    var style = document.createElement('style')
+    style.innerHTML ='.list{width: '+linodes.length +'00%;}'
+    /*.list li{width: 20%;}*/
+    style.innerHTML += '.list li{width: '+ 100/linodes.length+'%;}'
+    document.head.appendChild(style)
+    wrap.addEventListener('touchstart',function (event) {
+      var touch = event.changedTouches[0];
+      startX = touch.clientX
+      elemX = list.offsetLeft
+    });
+    wrap.addEventListener('touchmove',function (event) {
+      var touch = event.changedTouches[0];
+      nowX = touch.clientX
+      disX = nowX+elemX-startX
+      if(disX>0){
+        disX = 0
+      }else if(disX<document.documentElement.clientWidth-list.clientWidth){
+        disX=document.documentElement.clientWidth-list.clientWidth
+      }
+      list.style.left = disX + 'px'
+    })
+    wrap.addEventListener('touchend',function (event) {
+     /* //1/2逻辑
+      var now = Math.round(-list.offsetLeft/document.documentElement.clientWidth)
+      list.style.left = -now*document.documentElement.clientWidth+'px'*/
+
+      //左右划逻辑
+      var dis=nowX-startX
+      var now
+      if(dis<0){
+        //向左划 dis<0
+         now = Math.ceil(-list.offsetLeft/document.documentElement.clientWidth)
+      }else{
+         now = Math.floor(-list.offsetLeft/document.documentElement.clientWidth)
+      }
+      if(now<6){
+        list.style.left = -now*document.documentElement.clientWidth+'px'
+      }
+
+
+
+
+    })
+  }
+
+</script>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <title>Title</title>
+  <style>
+    body{
+      margin: 0px;
+      padding: 0px;
+    }
+    html,body{
+      height: 100%;
+      overflow: hidden;
+    }
+    .wrap{
+      width: 100%;
+      height: 100%;
+    }
+    .content{
+      position: absolute;
+      top: 0;
+      left:0;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="content"></div>
+</div>
+</body>
+<script>
+  var wrap =document.querySelector('.wrap')
+  var content =document.querySelector('.content')
+  var text = '';
+  for (var i = 0; i < 300; i++) {
+    text += i +'<br>'
+
+  }
+  content.innerHTML = text
+  var startY =0
+  var elemY = 0
+  wrap.addEventListener('touchstart',function (event) {
+    var touch = event.changedTouches[0]
+    startY = touch.clientY
+    elemY = content.offsetTop
+    console.log(startY)
+    console.log(elemY)
+
+  })
+  wrap.addEventListener('touchmove',function (event) {
+    var touch = event.changedTouches[0]
+    var nowY = touch.clientY
+    var disY = nowY+elemY -startY
+    if(disY>0){
+      disY=0
+    }else if(disY<document.documentElement.clientHeight-content.clientHeight){
+      disY=document.documentElement.clientHeight-content.clientHeight
+    }
+    content.style.top = disY + 'px'
+  })
+</script>
+</html>

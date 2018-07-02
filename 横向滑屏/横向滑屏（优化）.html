@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+  <title></title>
+  <style type="text/css">
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    html,body{
+      height: 100%;
+      overflow: hidden;
+    }
+    #wrap{
+      position: relative;
+    }
+    #list{
+      position: absolute;
+      list-style: none;
+      overflow: hidden;
+      width: 500%;
+    }
+    #list li{
+      float: left;
+      width: 20%;
+    }
+    #list li img{
+      width: 100%;
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+<div id="wrap">
+  <ul id="list">
+    <li>
+      <a href="###">
+        <img src="2.jpg"/>
+      </a>
+    </li>
+    <li>
+      <a href="###">
+        <img src="2.jpg"/>
+      </a>
+    </li>
+    <li>
+      <a href="###">
+        <img src="2.jpg"/>
+      </a>
+    </li>
+    <li>
+      <a href="###">
+        <img src="2.jpg"/>
+      </a>
+    </li>
+    <li>
+      <a href="###">
+        <img src="2.jpg"/>
+      </a>
+    </li>
+  </ul>
+</div>
+</body>
+<script type="text/javascript">
+  document.addEventListener('touchstart',function(event){
+    event.preventDefault();
+  });
+
+  window.onload = function(){
+    var wrap = document.getElementById('wrap');
+    var list = document.getElementById('list');
+    var liNodes = document.querySelectorAll('#list li');
+
+    //布局
+    var styleN = document.createElement('style');
+    styleN.innerHTML = '#list{width: '+ liNodes.length +'00%;}';
+    styleN.innerHTML += '#list li{width: '+ (100/liNodes.length) +'%;}';
+    styleN.innerHTML += '#wrap{height: '+ liNodes[0].offsetHeight  +'px;}';
+    document.head.appendChild(styleN);
+
+
+    //定义手指和元素初始位置
+    var startX = 0;
+    var eleX = 0;
+
+    wrap.addEventListener('touchstart',function(event){
+      var touch = event.changedTouches[0];
+
+      startX = touch.clientX;
+      eleX = list.offsetLeft;
+
+    });
+    wrap.addEventListener('touchmove',function(event){
+      var touch = event.changedTouches[0];
+
+      var nowX = touch.clientX;
+
+      //手指距离差
+      var disX = nowX - startX;
+
+      //范围的限定
+      var left = eleX + disX;
+      if(left > 0){
+        left = 0;
+      }else if(left < document.documentElement.clientWidth - list.offsetWidth){
+        left = document.documentElement.clientWidth - list.offsetWidth;
+      }
+      list.style.left = left + 'px';
+
+    });
+
+
+
+
+
+  };
+</script>
+</html>

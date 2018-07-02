@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .box{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+<a href="https://www.baidu.com/">baidu</a> <br>
+<a href="https://www.baidu.com/">baidu</a> <br>
+<a href="https://www.baidu.com/">baidu</a> <br>
+<a href="https://www.baidu.com/">baidu</a> <br>
+<a href="https://www.baidu.com/">baidu</a> <br>
+<div class="box"></div>
+</body>
+<script>
+  document.addEventListener('touchstart',function (event) {
+    event.preventDefault();
+  })
+  var box = document.querySelector('.box');
+  box.addEventListener('touchstart',function () {
+    box.style.display = 'none'
+  })
+  var as = document.querySelectorAll('a');
+  for (var i = 0; i < as.length; i++) {
+    as[i].addEventListener('touchsatrt',function (event) {
+      event.stopPropagation()
+    })
+
+  }
+</script>
+</html>
